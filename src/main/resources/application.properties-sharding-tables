@@ -1,0 +1,18 @@
+server.port=8080
+#sharding的配置
+spring.shardingsphere.props.sql.show=true
+spring.shardingsphere.datasource.names=ds0
+spring.main.allow-bean-definition-overriding=true
+spring.shardingsphere.datasource.ds0.type=com.zaxxer.hikari.HikariDataSource
+#spring.shardingsphere.datasource.ds0.type=org.apache.commons.dbcp.BasicDataSource
+spring.shardingsphere.datasource.ds0.driver-class-name=com.mysql.jdbc.Driver
+spring.shardingsphere.datasource.ds0.jdbc-url=jdbc:mysql://localhost:3306/sandbox?useSSL=true
+spring.shardingsphere.datasource.ds0.username=root
+spring.shardingsphere.datasource.ds0.password=123456
+#分片切入点
+spring.shardingsphere.sharding.tables.ts_case.actual-data-nodes=ds0.ts_case_$->{1..2}
+spring.shardingsphere.sharding.tables.ts_case.key-generator.column=id
+spring.shardingsphere.sharding.tables.ts_case.key-generator.type=SNOWFLAKE
+#分片策略
+spring.shardingsphere.sharding.tables.ts_case.table-strategy.inline.sharding-column=id
+spring.shardingsphere.sharding.tables.ts_case.table-strategy.inline.algorithm-expression=ts_case_$->{id % 2 + 1}
